@@ -8,7 +8,9 @@ const router = express.Router();
 router.get(
     '/',
     (req, res)  => {
-        res.send('Login Already!');
+        res.render('login', {
+            layout: 'guest'
+        });
     }
 );
 
@@ -19,7 +21,7 @@ router.get(
 router.get(
     '/dashboard',
     (req, res)  => {
-        res.send('Dashboard');
+        res.render('dashboard');
     }
 );
 
