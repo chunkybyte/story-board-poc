@@ -24,7 +24,9 @@ router.get(
     '/dashboard',
     ensureAuth,
     (req, res)  => {
-        res.render('dashboard');
+        res.render('dashboard', {
+            user: req.user.firstName
+        });
     }
 );
 
