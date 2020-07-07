@@ -22,13 +22,29 @@ connectDB();
 
 const app = express();
 
+// Body Parser to accept form data
+app.use(express.urlencoded( { extended: false } ));
+app.use(express.json());
+
 // Logging
 if (process.env.NODE_ENV) {
     app.use(morgan('dev'));
 }
 
+// Handlerbars Helpers
+const { formatDate, truncate, stripTags, editIcon } = require('./helpers/hbs');
+const { nextTick } = require('process');
+
 // Handlebars
-app.engine('.hbs', exphbs({defaultLayout: 'main', extname: '.hbs'}));
+app.engine('.hbs', exphbs({
+    helpers: {
+        formatDate,
+        truncate,
+        stripTags,
+        editIcon
+    },
+    defaultLayout: 'main', 
+    extname: '.hbs'}));
 app.set('view engine', '.hbs');
 
 // Sessions
@@ -43,12 +59,19 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
+// Set global variable
+app.use(function (req, res, next) {
+    res.locals.user = req.user || null;
+    next();
+});
+
 // Static Folder
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Routing
 app.use('/', require('./routes/app'));
 app.use('/auth', require('./routes/auth'))
+app.use('/stories', require('./routes/stories'))
 
 const PORT = process.env.PORT || 3000;
 
