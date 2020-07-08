@@ -7,3 +7,6 @@
 .fa-small {
     font-size: 16px !important;
 }
+.badge {
+    text-transform: capitalize;
+}
