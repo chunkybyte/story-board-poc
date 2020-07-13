@@ -60,6 +60,33 @@ router.get(
 );
 
 /**
+ * @description Get Story 
+ * @listens     GET /stories/:id
+ */
+router.get(
+    '/:id',
+    ensureAuth,
+    async (req, res)  => {
+        try {
+            const story = await Story.findById( req.params.id )
+                .populate('user')
+                .lean();
+            
+            if (!story) {
+                return res.render('errors/404');
+            }
+
+            res.render('stories/show', {
+                story
+            });
+        } catch (err) {
+            console.log(err);
+            return res.render('errors/404');
+        }
+    }
+);
+
+/**
  * @description Edit a Story Page
  * @listens     GET /stories/edit/:id
  */
@@ -140,7 +167,7 @@ router.delete(
           res.redirect('/dashboard');  
         } catch (error) {
             console.log(error);
-            res.render('errors/500');
+            return res.render('errors/500');
         }
     }
 );
