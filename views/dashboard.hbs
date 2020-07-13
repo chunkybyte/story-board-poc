@@ -13,8 +13,17 @@
                     <p>{{stripTags ( truncate body 100)}}</p>
                 </div>
                 <div class="card-action">
-                    <a href="/stories/edit/{{_id}}" class="waves-effect waves-light btn">Edit</a>
-                    <a href="#" class="waves-effect waves-light btn red">Delete</a>
+                    <a href="/stories/edit/{{_id}}" class="waves-effect waves-light btn btn-float">
+                        <i class="fas fa-edit"></i>
+                        Edit
+                    </a>
+                    <form action="/stories/{{_id}}" method="POST" id="delete-form">
+                        <input type="hidden" name="_method" value="DELETE">
+                        <button type="submit" class="waves-effect waves-light btn red">
+                            <i class="fas fa-trash"></i>
+                            Delete
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>

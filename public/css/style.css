@@ -10,3 +10,7 @@
 .badge {
     text-transform: capitalize;
 }
+.btn-float {
+    float: left;
+    margin-right: 12px;
+}
