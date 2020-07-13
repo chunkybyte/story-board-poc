@@ -172,4 +172,31 @@ router.delete(
     }
 );
 
+/**
+ * @description Get User's Stories
+ * @listens     GET /stories/user/:userId
+ */
+router.get(
+    '/user/:userId',
+    ensureAuth,
+    async (req, res)  => {
+        try {
+            const stories = await Story.find( { 
+                user    : req.params.userId,
+                status  : 'public'
+            } )
+            .populate('user')
+            .lean();
+
+            res.render('stories/index', {
+                stories
+            })
+            
+        } catch (err) {
+            console.log(err);
+            return res.render('errors/404');
+        }
+    }
+);
+
 module.exports = router;
